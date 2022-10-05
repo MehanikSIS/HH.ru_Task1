@@ -10,7 +10,7 @@ public class Main {
         int max = Math.max(n, m);
 
         int[][] matrix = new int[max][2];
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < matrix.length; i++) {
             String string2 = in.nextLine();
             try {
                 matrix[i][0] = Integer.parseInt(string2.split(" ")[0]);
@@ -27,33 +27,50 @@ public class Main {
         int count2 = 0;                             // порядковый номер резюме во второй стопке
         int result = 0;                             // сумма зарплат из открытых резюме
         int countResult1 = 0;                              // количество открытых резюме
-        while (result < s) {                            // первый вариант: берем всегда с менбшей зарплатой
-            if ((matrix[count1][0] < matrix[count2][1])) {
-                if (matrix[count1][0] == 0) {
-                    if (result + matrix[count2][1] > s) break;
-                    result = result + matrix[count2][1];
-                    count2++;
-                    countResult1++;
+        while (result < s) {                            // первый вариант: берем всегда с меньшей зарплатой
+            if (count1 < matrix.length && count2 < matrix.length) {
+                if ((matrix[count1][0] < matrix[count2][1])) {
+                    if (matrix[count1][0] == 0) {
+                        if (result + matrix[count2][1] > s) break;
+                        result = result + matrix[count2][1];
+                        count2++;
+                        countResult1++;
+                    } else {
+                        if (result + matrix[count1][0] > s) break;
+                        result = result + matrix[count1][0];
+                        count1++;
+                        countResult1++;
+                    }
                 } else {
+                    if (matrix[count2][1] != 0) {
+                        if (result + matrix[count2][1] > s) break;
+                        result = result + matrix[count2][1];
+                        count2++;
+                        countResult1++;
+                    } else {
+                        if (result + matrix[count1][0] > s) break;
+                        result = result + matrix[count1][0];
+                        count1++;
+                        countResult1++;
+                    }
+                }
+            } else if (count1 < matrix.length) {
+                if (matrix[count1][0] != 0) {
                     if (result + matrix[count1][0] > s) break;
                     result = result + matrix[count1][0];
                     count1++;
                     countResult1++;
                 }
-            } else {
+            } else if (count2 < matrix.length) {
                 if (matrix[count2][1] != 0) {
                     if (result + matrix[count2][1] > s) break;
                     result = result + matrix[count2][1];
                     count2++;
                     countResult1++;
-                } else {
-                    if (result + matrix[count1][0] > s) break;
-                    result = result + matrix[count1][0];
-                    count1++;
-                    countResult1++;
                 }
-            }
+            } else break;
         }
+
         count1 = 0;                             // порядковый номер резюме в первой стопке
         count2 = 0;                             // порядковый номер резюме во второй стопке
         result = 0;                             // сумма зарплат из открытых резюме
@@ -82,7 +99,7 @@ public class Main {
                     count2++;
                     countResult2++;
                 }
-            }
+            } else break;
         }
 
         count1 = 0;                             // порядковый номер резюме в первой стопке
@@ -113,7 +130,7 @@ public class Main {
                     count1++;
                     countResult3++;
                 }
-            }
+            }else break;
         }
         System.out.println(Math.max(countResult1, Math.max(countResult2, countResult3)));
 
