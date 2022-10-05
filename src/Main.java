@@ -14,12 +14,12 @@ public class Main {
             String string2 = in.nextLine();
             try {
                 matrix[i][0] = Integer.parseInt(string2.split(" ")[0]);
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | NullPointerException e) {
                 matrix[i][0] = 0;
             }
             try {
                 matrix[i][1] = Integer.parseInt(string2.split(" ")[1]);
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | NullPointerException e) {
                 matrix[i][1] = 0;
             }
         }
@@ -28,7 +28,7 @@ public class Main {
         int result = 0;                             // сумма зарплат из открытых резюме
         int countResult1 = 0;                              // количество открытых резюме
         while (result < s) {                            // первый вариант: берем всегда с меньшей зарплатой
-            if (count1 < matrix.length && count2 < matrix.length) {
+            if (count1 < n && count2 < m) {
                 if ((matrix[count1][0] < matrix[count2][1])) {
                     if (matrix[count1][0] == 0) {
                         if (result + matrix[count2][1] > s) break;
@@ -54,14 +54,14 @@ public class Main {
                         countResult1++;
                     }
                 }
-            } else if (count1 < matrix.length) {
+            } else if (count1 < n) {
                 if (matrix[count1][0] != 0) {
                     if (result + matrix[count1][0] > s) break;
                     result = result + matrix[count1][0];
                     count1++;
                     countResult1++;
                 }
-            } else if (count2 < matrix.length) {
+            } else if (count2 < m) {
                 if (matrix[count2][1] != 0) {
                     if (result + matrix[count2][1] > s) break;
                     result = result + matrix[count2][1];
@@ -76,13 +76,13 @@ public class Main {
         result = 0;                             // сумма зарплат из открытых резюме
         int countResult2 = 0;                   // количество открытых резюме
         while (result < s) {                    //второй вариант: берем всегда с первой стопки, после со второй
-            if (count1 < matrix.length) {
+            if (count1 < n) {
                 if (matrix[count1][0] != 0) {
                     if (result + matrix[count1][0] > s) break;
                     result = result + matrix[count1][0];
                     count1++;
                     countResult2++;
-                } else if (count2 < matrix.length) {
+                } else if (count2 < m) {
                     if (matrix[count2][1] != 0) {
                         if (result + matrix[count2][1] > s) break;
                         result = result + matrix[count2][1];
@@ -92,7 +92,7 @@ public class Main {
                         break;
                     }
                 } else break;
-            } else if (count2 < matrix.length) {
+            } else if (count2 < m) {
                 if (matrix[count2][1] != 0) {
                     if (result + matrix[count2][1] > s) break;
                     result = result + matrix[count2][1];
@@ -107,13 +107,13 @@ public class Main {
         result = 0;                             // сумма зарплат из открытых резюме
         int countResult3 = 0;                   // количество открытых резюме
         while (result < s) {                  //третий вариант: берем всегда со второй стопки, затем с первой
-            if (count2 < matrix.length) {
+            if (count2 < m) {
                 if (matrix[count2][1] != 0) {
                     if (result + matrix[count2][1] > s) break;
                     result = result + matrix[count2][1];
                     count2++;
                     countResult3++;
-                } else if (count1 < matrix.length) {
+                } else if (count1 < n) {
                     if (matrix[count1][0] != 0) {
                         if (result + matrix[count1][0] > s) break;
                         result = result + matrix[count1][0];
@@ -123,15 +123,16 @@ public class Main {
                         break;
                     }
                 } else break;
-            } else if (count1 < matrix.length) {
+            } else if (count1 < n) {
                 if (matrix[count1][0] != 0) {
                     if (result + matrix[count1][0] > s) break;
                     result = result + matrix[count1][0];
                     count1++;
                     countResult3++;
                 }
-            }else break;
+            } else break;
         }
+        in.close();
         System.out.println(Math.max(countResult1, Math.max(countResult2, countResult3)));
 
     }
